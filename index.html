@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DataGuard AI — Intelligent Data Quality Agent</title>
+  <meta name="description" content="An agentic AI system that autonomously detects duplicates, missing values, and inconsistencies in your data, then suggests validated corrections." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Background particles -->
+  <div class="bg-particles" id="bgParticles"></div>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header" id="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="18" cy="18" r="17" stroke="url(#lg1)" stroke-width="2"/>
+            <path d="M10 18 Q18 8 26 18 Q18 28 10 18Z" fill="url(#lg2)" opacity="0.8"/>
+            <circle cx="18" cy="18" r="4" fill="url(#lg3)"/>
+            <defs>
+              <linearGradient id="lg1" x1="0" y1="0" x2="36" y2="36">
+                <stop offset="0%" stop-color="#00d4ff"/>
+                <stop offset="100%" stop-color="#7c3aed"/>
+              </linearGradient>
+              <linearGradient id="lg2" x1="0" y1="0" x2="36" y2="36">
+                <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.6"/>
+                <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.6"/>
+              </linearGradient>
+              <linearGradient id="lg3" x1="0" y1="0" x2="36" y2="36">
+                <stop offset="0%" stop-color="#00d4ff"/>
+                <stop offset="100%" stop-color="#a78bfa"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">DataGuard <span class="logo-ai">AI</span></span>
+      </div>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#agent-section" class="nav-link active">Agent</a>
+        <a href="#issues-section" class="nav-link">Issues</a>
+        <a href="#report-section" class="nav-link">Report</a>
+        <a href="#audit-section" class="nav-link">Audit Log</a>
+      </nav>
+      <div class="header-status">
+        <div class="status-dot" id="agentStatusDot"></div>
+        <span class="status-text" id="agentStatusText">Agent Idle</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-icon">&#9889;</span> Powered by Agentic AI Loop
+      </div>
+      <h1 class="hero-title">
+        Intelligent Data<br/>
+        <span class="gradient-text">Quality Agent</span>
+      </h1>
+      <p class="hero-subtitle">
+        An autonomous AI agent that investigates your dataset for duplicates,<br/>
+        missing values &amp; inconsistencies — then guides you through validated corrections.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-value" id="statTotal">—</span>
+          <span class="hero-stat-label">Total Records</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-value" id="statIssues">—</span>
+          <span class="hero-stat-label">Issues Found</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-value" id="statFixed">—</span>
+          <span class="hero-stat-label">Fixed</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-value" id="statScore">—</span>
+          <span class="hero-stat-label">Quality Score</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content">
+
+    <!-- ===== AGENT CONTROL PANEL ===== -->
+    <section class="section" id="agent-section">
+      <div class="section-header">
+        <div class="section-label">AUTONOMOUS AGENT</div>
+        <h2 class="section-title">Agent Control Panel</h2>
+        <p class="section-desc">Upload your CSV or use the built-in demo dataset. The agent will autonomously scan, detect, and propose corrections.</p>
+      </div>
+
+      <div class="agent-layout">
+
+        <!-- Upload / Dataset Panel -->
+        <div class="card" id="uploadCard">
+          <div class="card-header">
+            <span class="card-icon">&#128194;</span>
+            <h3>Dataset Input</h3>
+          </div>
+          <div class="upload-zone" id="uploadZone">
+            <div class="upload-icon">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                <path d="M24 4L24 32M24 4L14 14M24 4L34 14" stroke="url(#ug1)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 36V40C8 41.1 8.9 42 10 42H38C39.1 42 40 41.1 40 40V36" stroke="url(#ug1)" stroke-width="2.5" stroke-linecap="round"/>
+                <defs>
+                  <linearGradient id="ug1" x1="8" y1="4" x2="40" y2="42">
+                    <stop offset="0%" stop-color="#00d4ff"/>
+                    <stop offset="100%" stop-color="#7c3aed"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <p class="upload-text">Drop CSV file here or <span class="upload-link" id="uploadTrigger">browse</span></p>
+            <p class="upload-hint">Supports CSV files up to 10MB</p>
+            <input type="file" id="fileInput" accept=".csv" hidden />
+          </div>
+          <div class="divider-or"><span>or</span></div>
+          <button class="btn btn-secondary" id="loadDemoBtn">
+            <span>&#129514;</span> Load Demo Dataset
+          </button>
+          <div class="dataset-preview" id="datasetPreview" style="display:none;">
+            <div class="preview-info">
+              <span class="preview-name" id="previewName">—</span>
+              <span class="preview-size" id="previewSize">—</span>
+            </div>
+            <button class="btn-icon" id="clearDataBtn" title="Clear dataset">&#10005;</button>
+          </div>
+        </div>
+
+        <!-- Agent Config -->
+        <div class="card" id="agentConfigCard">
+          <div class="card-header">
+            <span class="card-icon">&#129302;</span>
+            <h3>Agent Configuration</h3>
+          </div>
+          <div class="config-grid">
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <span class="toggle-title">Detect Duplicates</span>
+                <span class="toggle-desc">Find exact &amp; near-duplicate rows</span>
+              </div>
+              <label class="toggle">
+                <input type="checkbox" id="checkDuplicates" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <span class="toggle-title">Missing Values</span>
+                <span class="toggle-desc">Detect null, empty, and NaN entries</span>
+              </div>
+              <label class="toggle">
+                <input type="checkbox" id="checkMissing" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <span class="toggle-title">Inconsistencies</span>
+                <span class="toggle-desc">Format, type &amp; domain violations</span>
+              </div>
+              <label class="toggle">
+                <input type="checkbox" id="checkInconsistent" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <span class="toggle-title">Outlier Detection</span>
+                <span class="toggle-desc">Statistical anomalies in numeric cols</span>
+              </div>
+              <label class="toggle">
+                <input type="checkbox" id="checkOutliers" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+          <div class="threshold-row">
+            <div class="threshold-label">
+              Duplicate Similarity Threshold
+              <span class="threshold-value" id="thresholdVal">85%</span>
+            </div>
+            <input type="range" class="slider" id="dupThreshold" min="60" max="100" value="85" />
+          </div>
+          <button class="btn btn-primary btn-full" id="runAgentBtn" disabled>
+            <span class="btn-icon-anim" id="agentBtnIcon">&#128640;</span>
+            <span id="agentBtnText">Run Agent</span>
+          </button>
+        </div>
+
+        <!-- Agent Thinking Log -->
+        <div class="card agent-log-card" id="agentLogCard">
+          <div class="card-header">
+            <span class="card-icon">&#129504;</span>
+            <h3>Agent Reasoning Log</h3>
+            <div class="agent-spinner" id="agentSpinner" style="display:none;"></div>
+          </div>
+          <div class="agent-log" id="agentLog">
+            <div class="log-empty">
+              <span>&#128269;</span>
+              <p>Agent reasoning will appear here once you run the analysis.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== ISSUES SECTION ===== -->
+    <section class="section" id="issues-section" style="display:none;">
+      <div class="section-header">
+        <div class="section-label">DETECTED PROBLEMS</div>
+        <h2 class="section-title">Data Quality Issues</h2>
+        <p class="section-desc">Review each issue the agent found. Approve or reject suggested corrections — nothing is changed without your validation.</p>
+      </div>
+
+      <!-- Issue Stats Row -->
+      <div class="issue-stats-row" id="issueStatsRow">
+        <div class="issue-stat-card active" data-filter="all" id="filterAll">
+          <div class="issue-stat-icon all">&#128202;</div>
+          <div class="issue-stat-count" id="countAll">0</div>
+          <div class="issue-stat-label">All Issues</div>
+        </div>
+        <div class="issue-stat-card" data-filter="duplicate" id="filterDuplicate">
+          <div class="issue-stat-icon dup">&#128260;</div>
+          <div class="issue-stat-count" id="countDup">0</div>
+          <div class="issue-stat-label">Duplicates</div>
+        </div>
+        <div class="issue-stat-card" data-filter="missing" id="filterMissing">
+          <div class="issue-stat-icon miss">&#10067;</div>
+          <div class="issue-stat-count" id="countMiss">0</div>
+          <div class="issue-stat-label">Missing</div>
+        </div>
+        <div class="issue-stat-card" data-filter="inconsistent" id="filterInconsistent">
+          <div class="issue-stat-icon inc">&#9888;&#65039;</div>
+          <div class="issue-stat-count" id="countInc">0</div>
+          <div class="issue-stat-label">Inconsistent</div>
+        </div>
+        <div class="issue-stat-card" data-filter="outlier" id="filterOutlier">
+          <div class="issue-stat-icon out">&#128200;</div>
+          <div class="issue-stat-count" id="countOut">0</div>
+          <div class="issue-stat-label">Outliers</div>
+        </div>
+      </div>
+
+      <!-- Batch Actions -->
+      <div class="batch-actions" id="batchActions">
+        <div class="batch-left">
+          <span class="batch-label">Bulk Actions:</span>
+          <button class="btn btn-sm btn-success" id="approveAllBtn">&#10003; Approve All</button>
+          <button class="btn btn-sm btn-danger" id="rejectAllBtn">&#10007; Reject All</button>
+          <button class="btn btn-sm btn-ghost" id="approveByTypeBtn">Approve by Type &#9660;</button>
+        </div>
+        <div class="search-wrap">
+          <input type="text" class="search-input" id="issueSearch" placeholder="Search issues..." />
+        </div>
+      </div>
+
+      <!-- Type Dropdown -->
+      <div class="dropdown-menu" id="approveTypeMenu" style="display:none;">
+        <button class="dropdown-item" data-type="duplicate">&#128260; Approve All Duplicates</button>
+        <button class="dropdown-item" data-type="missing">&#10067; Approve All Missing</button>
+        <button class="dropdown-item" data-type="inconsistent">&#9888; Approve All Inconsistent</button>
+        <button class="dropdown-item" data-type="outlier">&#128200; Approve All Outliers</button>
+      </div>
+
+      <!-- Issues List -->
+      <div class="issues-list" id="issuesList"></div>
+
+      <!-- Apply Changes Button -->
+      <div class="apply-bar" id="applyBar">
+        <div class="apply-info">
+          <span id="approvedCount">0</span> changes approved &amp; ready to apply
+        </div>
+        <button class="btn btn-primary btn-lg" id="applyChangesBtn">
+          &#10024; Apply Validated Changes
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== REPORT SECTION ===== -->
+    <section class="section" id="report-section" style="display:none;">
+      <div class="section-header">
+        <div class="section-label">QUALITY ANALYSIS</div>
+        <h2 class="section-title">Data Quality Report</h2>
+        <p class="section-desc">Comprehensive quality metrics, before-and-after comparison, and column-level health scores.</p>
+      </div>
+      <div class="report-grid">
+        <!-- Quality Score Gauge -->
+        <div class="card report-card gauge-card">
+          <h3 class="report-card-title">Quality Score</h3>
+          <div class="gauge-wrap">
+            <canvas id="gaugeCanvas" width="220" height="130"></canvas>
+            <div class="gauge-value" id="gaugeValue">—</div>
+            <div class="gauge-label" id="gaugeLabel">—</div>
+          </div>
+        </div>
+
+        <!-- Column Health -->
+        <div class="card report-card col-health-card">
+          <h3 class="report-card-title">Column Health</h3>
+          <div class="col-health-list" id="colHealthList"></div>
+        </div>
+
+        <!-- Issue Breakdown -->
+        <div class="card report-card breakdown-card">
+          <h3 class="report-card-title">Issue Breakdown</h3>
+          <div class="breakdown-chart" id="breakdownChart"></div>
+        </div>
+
+        <!-- Data Preview (Before/After) -->
+        <div class="card report-card data-preview-card" id="dataPreviewCard">
+          <div class="preview-tabs">
+            <button class="tab active" id="tabBefore" data-tab="before">Before</button>
+            <button class="tab" id="tabAfter" data-tab="after">After</button>
+          </div>
+          <div class="data-table-wrap" id="dataTableWrap"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== AUDIT LOG SECTION ===== -->
+    <section class="section" id="audit-section" style="display:none;">
+      <div class="section-header">
+        <div class="section-label">CHANGE HISTORY</div>
+        <h2 class="section-title">Audit Log</h2>
+        <p class="section-desc">Every agent action, user decision, and applied change is recorded here for full traceability.</p>
+      </div>
+      <div class="card">
+        <div class="audit-toolbar">
+          <div class="audit-filters">
+            <button class="chip active" data-audit-filter="all">All</button>
+            <button class="chip" data-audit-filter="agent">Agent Actions</button>
+            <button class="chip" data-audit-filter="user">User Decisions</button>
+            <button class="chip" data-audit-filter="applied">Applied Changes</button>
+          </div>
+          <button class="btn btn-sm btn-ghost" id="exportAuditBtn">&#11015; Export Log</button>
+        </div>
+        <div class="audit-log" id="auditLog">
+          <div class="log-empty"><span>&#128203;</span><p>Audit trail will appear after running the agent.</p></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== TOAST CONTAINER ===== -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="tools.js"></script>
+  <script src="agent.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
